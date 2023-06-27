@@ -1,0 +1,1 @@
+package com.inyaw.blog.dao;import com.inyaw.blog.bean.InyawBlogComment;import org.springframework.data.jpa.repository.JpaRepository;public interface InyawBlogCommentDao extends JpaRepository<InyawBlogComment, Integer> {}

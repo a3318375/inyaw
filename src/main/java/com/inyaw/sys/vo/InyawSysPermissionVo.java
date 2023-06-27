@@ -1,0 +1,1 @@
+package com.inyaw.sys.vo;import com.inyaw.sys.bean.InyawSysPermission;import lombok.Getter;import lombok.Setter;import java.util.List;@Setter@Getterpublic class InyawSysPermissionVo extends InyawSysPermission {    private List<InyawSysPermissionVo> children;}

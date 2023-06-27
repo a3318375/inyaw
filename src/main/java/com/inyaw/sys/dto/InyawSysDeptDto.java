@@ -1,0 +1,1 @@
+package com.inyaw.sys.dto;import com.inyaw.sys.bean.InyawSysDept;import lombok.Getter;import lombok.Setter;import java.util.List;@Setter@Getterpublic class InyawSysDeptDto extends InyawSysDept {    private List<InyawSysDeptDto> children;}
