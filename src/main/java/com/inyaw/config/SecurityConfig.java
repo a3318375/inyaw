@@ -10,10 +10,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -29,11 +31,9 @@ import java.security.interfaces.RSAPublicKey;
  * @author Joe Grandja
  * @since 0.0.1
  */
-@EnableWebSecurity
-@Configuration(proxyBeanMethods = false)
+@Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
-
 
     @Value("${jwt.public.key}")
     RSAPublicKey key;
@@ -41,16 +41,18 @@ public class SecurityConfig {
     @Value("${jwt.private.key}")
     RSAPrivateKey priv;
 
+    private final InyaaAccessDecisionManager inyaaAccessDecisionManager;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // @formatter:off
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().authenticated()
+                        .anyRequest().access(inyaaAccessDecisionManager)
                 )
-                .csrf((csrf) -> csrf.ignoringRequestMatchers("/token"))
-                .httpBasic(Customizer.withDefaults())
-                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
+                .csrf(AbstractHttpConfigurer::disable)
+                //.httpBasic(Customizer.withDefaults())
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling((exceptions) -> exceptions
                         .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
@@ -58,6 +60,11 @@ public class SecurityConfig {
                 );
         // @formatter:on
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -71,4 +78,5 @@ public class SecurityConfig {
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
+
 }

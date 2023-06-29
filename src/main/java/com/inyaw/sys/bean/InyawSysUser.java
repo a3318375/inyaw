@@ -55,6 +55,6 @@ public class InyawSysUser implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private InyawSysUserDetail inyawSysUserDetail;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private InyawSysRole inyawSysRole;
 }

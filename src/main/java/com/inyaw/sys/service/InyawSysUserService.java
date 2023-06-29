@@ -2,7 +2,6 @@ package com.inyaw.sys.service;
 
 import com.inyaw.sys.bean.InyawSysUser;
 import com.inyaw.sys.bean.InyawSysUserDetail;
-import com.inyaw.sys.dao.InyawSysRoleDao;
 import com.inyaw.sys.dao.InyawSysUserDao;
 import com.inyaw.sys.dao.SysAppRoleDao;
 import jakarta.annotation.Resource;
@@ -30,9 +29,6 @@ public class InyawSysUserService implements UserDetailsService {
     @Resource
     private InyawSysUserDao inyawSysUserDao;
     @Resource
-    private InyawSysRoleDao inyawSysRoleDao;
-
-    @Resource
     private SysAppRoleDao sysAppRoleDao;
 
     @Override
@@ -41,7 +37,8 @@ public class InyawSysUserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
-            List<String> roles = inyawSysRoleDao.findRoleKeyByUserId(user.getId());
+            List<String> roles = new ArrayList<>();
+            roles.add(user.getInyawSysRole().getRoleKey());
             //List<String> roles = new ArrayList<>();
             return buildUserForAuthentication(user, buildUserAuthority(roles));
         }

@@ -1,7 +1,8 @@
 package com.inyaw.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.*;
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;

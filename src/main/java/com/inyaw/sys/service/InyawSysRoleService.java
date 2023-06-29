@@ -52,10 +52,6 @@ public class InyawSysRoleService {
         return inyawSysRoleDao.getById(roleId);
     }
 
-    public List<String> findRoleKeyList(Integer id) {
-        return inyawSysRoleDao.findRoleKeyList(id);
-    }
-
     public List<InyawSysRole> findAll(InyawSysRole role) {
         ExampleMatcher matcher = ExampleMatcher.matching();
         Example<InyawSysRole> ex = Example.of(role, matcher);
