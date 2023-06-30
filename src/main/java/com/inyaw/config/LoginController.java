@@ -4,6 +4,8 @@ import com.inyaw.sys.bean.InyawSysUser;
 import com.inyaw.sys.service.InyawSysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -23,20 +25,25 @@ public class LoginController {
 
     private final JwtEncoder encoder;
     private final InyawSysUserService inyawSysUserService;
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/token")
-    public String token(Authentication authentication) {
+    public String token(@RequestBody InyawSysUser user) {
+        Authentication authResult = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                user.getUsername(),
+                user.getPassword()
+        ));
         Instant now = Instant.now();
         long expiry = 36000L;
         // @formatter:off
-        String scope = authentication.getAuthorities().stream()
+        String scope = authResult.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
-                .subject(authentication.getName())
+                .subject(authResult.getName())
                 .claim("scope", scope)
                 .build();
         // @formatter:on
