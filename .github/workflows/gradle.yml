@@ -12,7 +12,9 @@ jobs:
       - name: 安装jdk17 graalvm
         uses: graalvm/setup-graalvm@v1
         with:
+          version: 'latest'
           java-version: '17.0.7'
+          components: 'native-image'
       - name: 校验Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Make Gradlew Executable
