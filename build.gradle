@@ -52,3 +52,12 @@ hibernate {
     }
 }
 
+graalvmNative {
+    binaries {
+        main {
+            buildArgs.add("--initialize-at-build-time=org.apache.commons.logging.LogFactory")
+            buildArgs.add("--initialize-at-build-time=org.apache.commons.logging.LogFactoryService")
+        }
+    }
+}
+
