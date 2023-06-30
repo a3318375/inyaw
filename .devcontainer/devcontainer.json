@@ -1,9 +1,6 @@
 {
   "image": "mcr.microsoft.com/devcontainers/universal:2",
   "features": {
-    "ghcr.io/devcontainers/features/java:1": {
-      "version": "17"
-    },
     "ghcr.io/devcontainers-contrib/features/graalvm-asdf:2": {}
   }
 }
