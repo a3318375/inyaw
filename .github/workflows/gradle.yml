@@ -24,13 +24,10 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
       - name: Make Gradlew Executable
         run: chmod +x ./gradlew
-      - name: 编译
+      - name: 编译包
         uses: gradle/gradle-build-action@v2
-        with:
-          arguments: |
-            bootbuildimage
-            --initialize-at-build-time=org.apache.commons.logging.LogFactory
-            --initialize-at-build-time=org.apache.commons.logging.LogFactoryService
+      - name: 开始编译
+        run: ./gradlew build --initialize-at-build-time=org.apache.commons.logging.LogFactory --initialize-at-build-time=org.apache.commons.logging.LogFactoryService
       - name: 登录docker仓库
         uses: docker/login-action@v2
         with:
