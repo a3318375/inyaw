@@ -12,8 +12,8 @@ jobs:
       - name: 安装jdk17 graalvm
         uses: graalvm/setup-graalvm@v1
         with:
-          version: '22.3.0'
-          java-version: '17'
+          version: 'latest'
+          java-version: '17.0.7'
           components: 'native-image'
       - name: 查看版本信息
         run: |
