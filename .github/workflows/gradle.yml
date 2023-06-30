@@ -35,5 +35,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: 上传到docker仓库
         run: |
-          docker ps
-          docker images
+          docker tag inyaw inyaw:0.0.1
+          docker tag inyaw inyaw:latest
+          docker rmi inyaw:0.0.1-SNAPSHOT
+          docker push --all-tags inyaw
