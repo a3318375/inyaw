@@ -22,9 +22,9 @@ jobs:
           native-image --version
       - name: 校验Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: Make Gradlew Executable
+      - name: gradle授权
         run: chmod +x ./gradlew
-      - name: 编译包
+      - name: 编译成docker镜像
         uses: gradle/gradle-build-action@v2
         with:
           arguments: bootBuildImage
@@ -39,3 +39,15 @@ jobs:
           docker tag inyaw:0.0.1 inyaa/inyaw:latest
           docker rmi inyaw:0.0.1
           docker push --all-tags inyaa/inyaw
+      - name: 开始部署
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            docker stop $(docker ps -a | grep "inyaw" | awk '{print $1}')
+            docker rm -f $(docker ps -a | grep inyaw | awk '{print $1}')
+            docker rmi $(docker images | grep inyaw | awk '{print $3}')
+            docker run -d -p 8080:8080 --name inyaw --network inyaw --network-alias inyaw  inyaa/inyaw:latest
