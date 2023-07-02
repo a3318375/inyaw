@@ -1,5 +1,6 @@
 package com.inyaw.config;
 
+import com.inyaw.base.BaseResult;
 import com.inyaw.sys.bean.InyawSysUser;
 import com.inyaw.sys.service.InyawSysUserService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class LoginController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/token")
-    public String token(@RequestBody InyawSysUser user) {
+    public BaseResult<String> token(@RequestBody InyawSysUser user) {
         Authentication authResult = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 user.getUsername(),
                 user.getPassword()
@@ -47,13 +48,13 @@ public class LoginController {
                 .claim("scope", scope)
                 .build();
         // @formatter:on
-        return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        return BaseResult.success(this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue());
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody InyawSysUser user) {
+    public BaseResult<String> register(@RequestBody InyawSysUser user) {
         inyawSysUserService.save(user, true);
         // @formatter:on
-        return "success";
+        return BaseResult.success();
     }
 }
