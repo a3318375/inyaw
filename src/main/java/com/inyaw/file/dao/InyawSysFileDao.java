@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface InyawSysFileDao extends JpaRepository<InyawSysFile, Integer> {
 
-    @Query(value = "select * FROM inyaa_sys_file where type = ?1 ORDER BY RAND() LIMIT 1", nativeQuery = true)
+    @Query(value = "select * FROM inyaw_sys_file where type = ?1 ORDER BY RAND() LIMIT 1", nativeQuery = true)
     InyawSysFile getRandImg(int type);
 }
