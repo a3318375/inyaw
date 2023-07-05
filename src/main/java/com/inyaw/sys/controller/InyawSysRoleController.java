@@ -3,7 +3,6 @@ package com.inyaw.sys.controller;
 import com.inyaw.base.BaseResult;
 import com.inyaw.sys.bean.InyawSysRole;
 import com.inyaw.sys.service.InyawSysRoleService;
-import com.inyaw.sys.vo.InyawSysRoleVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +16,12 @@ public class InyawSysRoleController {
     private final InyawSysRoleService inyawSysRoleService;
 
     @GetMapping("/list")
-    public BaseResult<List<InyawSysRoleVo>> list(InyawSysRole role) {
-        return BaseResult.success(inyawSysRoleService.findRoleList(role));
+    public BaseResult<List<InyawSysRole>> list() {
+        return BaseResult.success(inyawSysRoleService.list());
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public BaseResult<String> save(@RequestBody InyawSysRoleVo role) {
+    public BaseResult<String> save(@RequestBody InyawSysRole role) {
         inyawSysRoleService.save(role);
         return BaseResult.success();
     }

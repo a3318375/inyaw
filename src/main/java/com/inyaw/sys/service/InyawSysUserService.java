@@ -2,8 +2,8 @@ package com.inyaw.sys.service;
 
 import com.inyaw.sys.bean.InyawSysUser;
 import com.inyaw.sys.bean.InyawSysUserDetail;
+import com.inyaw.sys.dao.InyawSysRoleDao;
 import com.inyaw.sys.dao.InyawSysUserDao;
-import com.inyaw.sys.dao.SysAppRoleDao;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Example;
@@ -28,8 +28,11 @@ public class InyawSysUserService implements UserDetailsService {
 
     @Resource
     private InyawSysUserDao inyawSysUserDao;
-    @Resource
-    private SysAppRoleDao sysAppRoleDao;
+    private final InyawSysRoleDao inyawSysRoleDao;
+
+    public InyawSysUserService(InyawSysRoleDao inyawSysRoleDao) {
+        this.inyawSysRoleDao = inyawSysRoleDao;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,7 +41,9 @@ public class InyawSysUserService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
             List<String> roles = new ArrayList<>();
-            roles.add(user.getInyawSysRole().getRoleKey());
+            user.getRoleList().forEach(roleBean -> {
+                roles.add(roleBean.getRoleKey());
+            });
             //List<String> roles = new ArrayList<>();
             return buildUserForAuthentication(user, buildUserAuthority(roles));
         }
@@ -96,7 +101,7 @@ public class InyawSysUserService implements UserDetailsService {
             user.setCredentialsNonExpired(true);
         }
         if (user.getRoleList() != null && user.getRoleList().size() > 0) {
-            sysAppRoleDao.saveAll(user.getRoleList());
+            inyawSysRoleDao.saveAll(user.getRoleList());
         }
         inyawSysUserDao.save(user);
     }

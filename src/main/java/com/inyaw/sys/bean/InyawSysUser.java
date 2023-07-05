@@ -45,16 +45,13 @@ public class InyawSysUser implements Serializable {
      */
     private Boolean credentialsNonExpired;
     /**
-     * 角色
-     */
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private List<SysAppRole> roleList;
-    /**
      * 用户详情资料
      */
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private InyawSysUserDetail inyawSysUserDetail;
-
-    @OneToOne
-    private InyawSysRole inyawSysRole;
+    /**
+     * 角色
+     */
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<InyawSysRole> roleList;
 }
