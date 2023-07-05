@@ -17,7 +17,7 @@ public class InyawSysUser implements Serializable {
     private static final long serialVersionUID = -4307367511896826563L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
@@ -48,10 +48,14 @@ public class InyawSysUser implements Serializable {
      * 用户详情资料
      */
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id",
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private InyawSysUserDetail inyawSysUserDetail;
     /**
      * 角色
      */
     @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<InyawSysRole> roleList;
 }

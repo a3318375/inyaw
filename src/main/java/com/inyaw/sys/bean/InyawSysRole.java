@@ -14,7 +14,7 @@ import java.util.List;
 public class InyawSysRole {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     private String roleName;
@@ -23,6 +23,8 @@ public class InyawSysRole {
 
     private String description;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<InyawSysMenu> menuList;
 }

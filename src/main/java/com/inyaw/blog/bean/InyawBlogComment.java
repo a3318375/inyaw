@@ -20,12 +20,14 @@ public class InyawBlogComment {
      * 用户id
      */
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private InyawSysUser fromUser;
 
     /**
      * 评论的目标用户id
      */
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private InyawSysUser toUser;
 
     /**
