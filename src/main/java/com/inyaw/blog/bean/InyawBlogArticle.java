@@ -20,5 +20,6 @@ public class InyawBlogArticle {
      * 文章内容
      */
     @Lob
+    @Column(columnDefinition = "text")
     private String context;
 }

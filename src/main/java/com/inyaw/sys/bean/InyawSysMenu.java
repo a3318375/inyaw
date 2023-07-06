@@ -47,6 +47,10 @@ public class InyawSysMenu {
      */
     private Integer sort;
     /**
+     * 菜单类型,0-前台菜单，1-后台菜单
+     */
+    private Integer menuType;
+    /**
      * 创建日期
      */
     private LocalDateTime createTime;
