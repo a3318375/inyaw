@@ -6,9 +6,9 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://118.195.250.48:3306/inyaw?useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://10.206.0.6:3306/inyaw?useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
     username: root
-    password: 123456
+    password: Yuxh3318375!
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
