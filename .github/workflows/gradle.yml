@@ -17,7 +17,6 @@ jobs:
       - name: 查看版本信息
         run: |
           java --version
-          gu --version
           native-image --version
       - name: 校验Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
