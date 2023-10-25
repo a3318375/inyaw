@@ -25,6 +25,8 @@ jobs:
       - uses: gradle/gradle-build-action@v2
       - name: 编译
         run: ./gradlew nativeCompile
+      - name: 查看当前文件
+        run: ls -R build
       - uses: mr-smithers-excellent/docker-build-push@v5
         name: 编译docker镜像
         with:
@@ -46,27 +48,3 @@ jobs:
             sudo docker rm -f $(sudo docker ps -a | grep inyaw | awk '{print $1}')
             sudo docker rmi $(sudo docker images | grep inyaw | awk '{print $3}')
             sudo docker run -d -p 8080:8080 --name inyaw --network inyaw --network-alias inyaw  inyaa/inyaw:latest
-      #     arguments: bootBuildImage
-      # - name: 登录docker仓库
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
-      # - name: 上传到docker仓库
-      #   run: |
-      #     docker tag inyaw:0.0.1 inyaa/inyaw:0.0.1
-      #     docker tag inyaw:0.0.1 inyaa/inyaw:latest
-      #     docker rmi inyaw:0.0.1
-      #     docker push --all-tags inyaa/inyaw
-      # - name: 开始部署
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.HOST }}
-      #     username: ${{ secrets.USERNAME }}
-      #     password: ${{ secrets.PASSWORD }}
-      #     port: ${{ secrets.PORT }}
-      #     script: |
-      #       docker stop $(docker ps -a | grep "inyaw" | awk '{print $1}')
-      #       docker rm -f $(docker ps -a | grep inyaw | awk '{print $1}')
-      #       docker rmi $(docker images | grep inyaw | awk '{print $3}')
-      #       docker run -d -p 8080:8080 --name inyaw --network inyaw --network-alias inyaw  inyaa/inyaw:latest
