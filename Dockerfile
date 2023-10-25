@@ -4,4 +4,4 @@ ADD build/native/nativeCompile/* ./
 
 EXPOSE 8080
 #开机启动
-ENTRYPOINT ["inyaw"]
+ENTRYPOINT ["/inyaw"]
