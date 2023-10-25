@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM openjdk:21-jdk-alpine
 #将本地项目jar包拷贝到Docker容器中的位置
 ADD build/libs/inyaw-0.0.1.jar ./
 
