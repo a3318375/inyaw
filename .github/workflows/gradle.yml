@@ -13,7 +13,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           version: 'latest'
-          java-version: '17.0.7'
+          java-version: '21'
           components: 'native-image'
       - name: 查看版本信息
         run: |
