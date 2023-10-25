@@ -24,7 +24,7 @@ jobs:
         run: chmod +x ./gradlew
       - uses: gradle/gradle-build-action@v2
       - name: 编译
-        run: ./gradlew nativeCompile
+        run: ./gradlew build
       - name: 查看当前文件
         run: ls -R build
       - uses: mr-smithers-excellent/docker-build-push@v5
