@@ -22,10 +22,9 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
       - name: gradle授权
         run: chmod +x ./gradlew
-      - name: 编译成docker镜像
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: nativeCompile
+      - uses: gradle/gradle-build-action@v2
+      - name: 编译
+        run: gradlew nativeCompile
       - uses: mr-smithers-excellent/docker-build-push@v5
         name: 编译docker镜像
         with:
