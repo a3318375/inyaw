@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM docker.io/debian:testing-slim
 #将本地项目jar包拷贝到Docker容器中的位置
 ADD build/native/nativeCompile/* ./
 
