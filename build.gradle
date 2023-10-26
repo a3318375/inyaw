@@ -47,7 +47,7 @@ tasks.named('test') {
 
 bootBuildImage {
     imageName = "inyaa/inyaw:latest"
-    isPublish = true
+    publish = true
     docker {
         publishRegistry {
             url = "docker.io"
