@@ -46,8 +46,10 @@ tasks.named('test') {
 
 
 bootBuildImage {
+    builder = "paketobuildpacks/builder-jammy-tiny"
     imageName = "inyaa/inyaw:latest"
     publish = true
+    environment["BP_JVM_VERSION"] = "21"
     docker {
         publishRegistry {
             url = "docker.io"
