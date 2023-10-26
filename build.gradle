@@ -44,3 +44,16 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+
+bootBuildImage {
+    imageName = "inyaa/inyaw:latest"
+    isPublish = true
+    docker {
+        publishRegistry {
+            url = "docker.io"
+            username = "yuxhcx@163.com"
+            password = "yuxiaohao"
+        }
+    }
+}
+

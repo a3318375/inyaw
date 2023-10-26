@@ -24,18 +24,18 @@ jobs:
         run: chmod +x ./gradlew
       - uses: gradle/gradle-build-action@v2
       - name: 编译
-        run: ./gradlew nativeCompile
+        run: ./gradlew bootBuildImage
       - name: 查看当前文件
         run: ls -R build
-      - uses: mr-smithers-excellent/docker-build-push@v5
-        name: 编译docker镜像
-        with:
-          image: inyaa/inyaw
-          tags: latest
-          registry: docker.io
-          dockerfile: Dockerfile
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+#      - uses: mr-smithers-excellent/docker-build-push@v5
+#        name: 编译docker镜像
+#        with:
+#          image: inyaa/inyaw
+#          tags: latest
+#          registry: docker.io
+#          dockerfile: Dockerfile
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: ssh部署
         uses: appleboy/ssh-action@master
         with:
