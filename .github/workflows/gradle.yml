@@ -44,7 +44,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            sudo docker stop $(sudo docker ps -a | grep "inyaw" | awk '{print $1}')
-            sudo docker rm -f $(sudo docker ps -a | grep inyaw | awk '{print $1}')
-            sudo docker rmi $(sudo docker images | grep inyaw | awk '{print $3}')
-            sudo docker run -d -p 8080:8080 --name inyaw --network inyaw --network-alias inyaw docker.io/inyaa/inyaw:latest
+            podman stop $(sudo podman ps -a | grep "inyaw" | awk '{print $1}')
+            podman rm -f $(sudo podman ps -a | grep inyaw | awk '{print $1}')
+            podman rmi $(sudo podman images | grep inyaw | awk '{print $3}')
+            podman run -d -p 8080:8080 --name inyaw --network inyaw --network-alias inyaw docker.io/inyaa/inyaw:latest
