@@ -7,6 +7,7 @@ import com.inyaw.file.bean.InyawSysFile;
 import com.inyaw.file.service.InyawBaseUploadService;
 import com.inyaw.file.service.InyawSysFileService;
 import com.upyun.RestManager;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;
@@ -35,8 +36,9 @@ public class ImageController {
     }
 
     @GetMapping("/image")
-    public BaseResult<String> getPc(Integer type) {
+    public BaseResult<String> getPc(Integer type, HttpServletResponse response) throws IOException {
         InyawSysFile file = inyawSysFileService.getRandImg(type);
+        response.sendRedirect(file.getUrl());
         return BaseResult.success(file.getUrl());
     }
 
