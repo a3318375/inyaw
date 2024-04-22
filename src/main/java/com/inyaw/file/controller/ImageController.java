@@ -24,25 +24,25 @@ import java.util.Map;
 @Slf4j
 public class ImageController {
 
-    private final InyawSysFileService InyawSysFileService;
+    private final InyawSysFileService inyawSysFileService;
     private final Map<String, InyawBaseUploadService> uploadMap;
     private final CacheService cacheService;
 
     @GetMapping("/list")
     public BaseResult<List<InyawSysFile>> getMobile() {
-        List<InyawSysFile> list = InyawSysFileService.findAll();
+        List<InyawSysFile> list = inyawSysFileService.findAll();
         return BaseResult.success(list);
     }
 
     @GetMapping("/image")
     public BaseResult<String> getPc(Integer type) {
-        InyawSysFile file = InyawSysFileService.getRandImg(type);
+        InyawSysFile file = inyawSysFileService.getRandImg(type);
         return BaseResult.success(file.getUrl());
     }
 
     @PostMapping("/delete")
     public BaseResult<String> delete(@RequestBody InyawSysFile InyawSysFile) {
-        InyawSysFile bean = InyawSysFileService.getOne(InyawSysFile.getId());
+        InyawSysFile bean = inyawSysFileService.getOne(InyawSysFile.getId());
         if (bean != null) {
             Map<String, Object> configMap = cacheService.getConfig(1);
             int uploadType = Integer.parseInt(String.valueOf(configMap.get("UPLOAD_TYPE")));
