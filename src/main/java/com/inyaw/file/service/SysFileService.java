@@ -35,7 +35,7 @@ public class SysFileService {
     public SysFile getRandImg(int type) {
         QueryWrapper queryWrapper = QueryWrapper.create();
         queryWrapper.eq("type", type);
-        queryWrapper.orderBy("rand()").limit(1);
+        queryWrapper.orderByUnSafely("rand()").limit(1);
         // @Query(value = "select * FROM inyaw_sys_file where type = ?1 ORDER BY RAND() LIMIT 1", nativeQuery = true)
         return sysFileMapper.selectOneByQuery(queryWrapper);
     }
