@@ -1,0 +1,15 @@
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+
+spring:
+  datasource:
+    url: jdbc:mysql://1.117.59.182:3306/inyaw_new?useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: root
+    password: Yuxh3318375!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
