@@ -10,6 +10,10 @@ spring:
     username: root
     password: Yuxh3318375!
     driver-class-name: com.mysql.cj.jdbc.Driver
+
 jwt:
   private.key: classpath:app.key
   public.key: classpath:app.pub
+
+server:
+  port: 8081
