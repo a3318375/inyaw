@@ -4,7 +4,7 @@ import com.inyaw.base.BaseResult;
 import com.inyaw.blog.bean.BlogInfo;
 import com.inyaw.blog.dto.BlogInfoDto;
 import com.inyaw.blog.service.BlogInfoService;
-import com.inyaw.blog.vo.InyawBlogWebInfoVo;
+import com.inyaw.blog.vo.InyawBlogVo;
 import com.inyaw.blog.vo.InyawBlogWebVo;
 import com.mybatisflex.core.paginate.Page;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class BlogInfoWebController {
     }
 
     @GetMapping("/info")
-    public BaseResult<InyawBlogWebInfoVo> webInfo(BlogInfo blog) {
+    public BaseResult<InyawBlogVo> webInfo(BlogInfo blog) {
         try {
             return BaseResult.success(inyawBlogService.getWebBlogInfo(blog));
         } catch (Exception e) {

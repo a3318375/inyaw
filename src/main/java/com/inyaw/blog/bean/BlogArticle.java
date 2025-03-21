@@ -13,10 +13,6 @@ public class BlogArticle {
     @Id(keyType = KeyType.Auto)
     private Integer id;
     /**
-     * 博客id
-     */
-    private String blogId;
-    /**
      * 文章内容
      */
     private String context;
