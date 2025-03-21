@@ -1,0 +1,47 @@
+name: java CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装jdk21 graalvm
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm'
+      - name: 查看版本信息
+        run: |
+          java --version
+          native-image --version
+      - name: 校验Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: gradle授权
+        run: chmod +x ./gradlew
+      - uses: gradle/gradle-build-action@v2
+      - name: 编译
+        run: ./gradlew build
+      - name: 查看当前文件
+        run: ls -R build
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: 编译docker镜像
+        with:
+          image: inyaa/inyaw
+          tags: latest
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: ssh部署
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            docker run -d -p 8081:8081 --name inyaw --network inyaw --network-alias inyaw docker.io/inyaa/inyaw:latest
