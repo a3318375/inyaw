@@ -43,4 +43,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            docker run -d -p 8081:8081 --name inyaw --network inyaw --network-alias inyaw docker.io/inyaa/inyaw:latest
+            docker stop $(sudo docker ps -a | grep "inyaw" | awk '{print $1}')
+            docker rm -f $(sudo docker ps -a | grep inyaw | awk '{print $1}')
+            docker rmi $(sudo docker images | grep inyaw | awk '{print $3}')
+            docker run -d -p 8080:8080 --name inyaw --network inyaw --network-alias inyaw docker.io/inyaa/inyaw:latest
