@@ -30,7 +30,7 @@ public class LoginController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public BaseResult<String> token(@RequestBody SysUser user) {
+    public BaseResult token(@RequestBody SysUser user) {
         Authentication authResult = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 user.getUsername(),
                 user.getPassword()
@@ -53,7 +53,7 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public BaseResult<String> register(@RequestBody SysUserDto user) {
+    public BaseResult register(@RequestBody SysUserDto user) {
         sysUserService.save(user, true);
         // @formatter:on
         return BaseResult.success();

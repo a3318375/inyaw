@@ -30,20 +30,20 @@ public class ImageController {
     private final CacheService cacheService;
 
     @GetMapping("/list")
-    public BaseResult<List<SysFile>> getMobile() {
+    public BaseResult getMobile() {
         List<SysFile> list = sysFileService.findAll();
         return BaseResult.success(list);
     }
 
     @GetMapping("/image")
-    public BaseResult<String> getPc(Integer type, HttpServletResponse response) throws IOException {
+    public BaseResult getPc(Integer type, HttpServletResponse response) throws IOException {
         SysFile file = sysFileService.getRandImg(type);
         response.sendRedirect(file.getUrl());
         return BaseResult.success(file.getUrl());
     }
 
     @PostMapping("/delete")
-    public BaseResult<String> delete(@RequestBody SysFile InyawSysFile) {
+    public BaseResult delete(@RequestBody SysFile InyawSysFile) {
         SysFile bean = sysFileService.getOne(InyawSysFile.getId());
         if (bean != null) {
             Map<String, Object> configMap = cacheService.getConfig(1);
@@ -61,7 +61,7 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    public BaseResult<String> upload(@RequestParam("file") MultipartFile file, @RequestParam("type") Integer type) throws IOException {
+    public BaseResult upload(@RequestParam("file") MultipartFile file, @RequestParam("type") Integer type) throws IOException {
         Map<String, Object> configMap = cacheService.getConfig(1);
         int uploadType = Integer.parseInt(String.valueOf(configMap.get("UPLOAD_TYPE")));
         String url = null;

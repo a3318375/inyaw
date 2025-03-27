@@ -11,33 +11,29 @@ import lombok.experimental.Accessors;
 @Setter
 @Getter
 @Accessors(chain = true)
-public class BaseResult<R> {
+public class BaseResult {
+
+    private Boolean success;
 
     private int code;
 
-    private String errorMessage;
+    private String msg;
 
-    private R data;
+    private Object data;
 
-    public static <R> BaseResult<R> success() {
-        return new BaseResult<R>().setCode(1);
+    public static BaseResult success() {
+        return new BaseResult().setSuccess(true).setCode(200);
     }
 
-    public static <R> BaseResult<R> success(R data) {
-        return new BaseResult<R>().setCode(1).setData(data);
+    public static BaseResult success(Object data) {
+        return new BaseResult().setSuccess(true).setCode(200).setData(data);
     }
 
-    public static <R> BaseResult<R> error(int code, String msg) {
-        BaseResult<R> result = new BaseResult<>();
-        result.setCode(code);
-        result.setErrorMessage(msg);
-        return result;
+    public static BaseResult error(int code, String msg) {
+        return new BaseResult().setSuccess(false).setCode(code).setMsg(msg);
     }
 
-    public static <R> BaseResult<R> error() {
-        BaseResult<R> result = new BaseResult<>();
-        result.setCode(-1);
-        result.setErrorMessage("失败");
-        return result;
+    public static BaseResult error() {
+        return new BaseResult().setSuccess(false).setCode(500).setMsg("失败");
     }
 }
