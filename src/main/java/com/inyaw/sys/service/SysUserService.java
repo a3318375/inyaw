@@ -87,13 +87,13 @@ public class SysUserService implements UserDetailsService {
             BCryptPasswordEncoder bcry = new BCryptPasswordEncoder();
             userDto.setPassword(bcry.encode(userDto.getPassword()));
         }
-        if (userDto.getAccountNonLocked() != null) {
+        if (userDto.getAccountNonLocked() == null) {
             userDto.setAccountNonLocked(true);
         }
-        if (userDto.getAccountNonExpired() != null) {
+        if (userDto.getAccountNonExpired() == null) {
             userDto.setAccountNonExpired(true);
         }
-        if (userDto.getCredentialsNonExpired() != null) {
+        if (userDto.getCredentialsNonExpired() == null) {
             userDto.setCredentialsNonExpired(true);
         }
         if (userDto.getRoleList() != null && !userDto.getRoleList().isEmpty()) {
@@ -104,7 +104,7 @@ public class SysUserService implements UserDetailsService {
 
     public SysUser getByUsername(String username) {
         QueryWrapper userParams = QueryWrapper.create();
-        userParams.orderBy("username", username);
+        userParams.eq("username", username);
         return sysUserMapper.selectOneByQuery(userParams);
     }
 }

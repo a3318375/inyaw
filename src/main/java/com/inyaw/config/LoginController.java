@@ -29,7 +29,7 @@ public class LoginController {
     private final SysUserService sysUserService;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping("/token")
+    @PostMapping("/login")
     public BaseResult<String> token(@RequestBody SysUser user) {
         Authentication authResult = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 user.getUsername(),
