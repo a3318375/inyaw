@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,32 +41,44 @@ public class SysMenuService {
         sysMenuMapper.insert(permission);
     }
 
-    private List<SysMenu> findMenuList(Integer pid, Boolean enable) {
+    private List<SysMenu> findMenuList(Integer pid) {
         SysMenu params = new SysMenu();
-        if (enable != null) {
-            params.setIsShow(enable);
-        }
         params.setParentId(pid);
         return findMenuList(params);
     }
 
-    private List<SysMenuVo> findMenuList(List<SysMenu> list, Boolean enable) {
+    private List<SysMenuVo> findMenuList(List<SysMenu> list) {
         List<SysMenuVo> menuVOS = new ArrayList<>();
         list.forEach(menuInfo -> {
             SysMenuVo vo = new SysMenuVo();
             BeanUtils.copyProperties(menuInfo, vo);
+            Map<String, Object> meta = new HashMap<>();
+            meta.put("title", menuInfo.getTitle());
+            vo.setMeta(meta);
 
-            List<SysMenu> chindres = findMenuList(menuInfo.getId(), enable);
+            List<SysMenu> chindres = findMenuList(menuInfo.getId());
             if (!chindres.isEmpty()) {
-                vo.setChildren(findMenuList(chindres, enable));
+                vo.setChildren(findMenuList(chindres));
             }
             menuVOS.add(vo);
         });
         return menuVOS;
     }
 
-    public List<SysMenuVo> findMenuList(Boolean enable) {
-        return findMenuList(findMenuList(0, enable), enable);
+    public List<SysMenuVo> findMenuList() {
+        List<SysMenuVo> menuList = findMenuList(findMenuList(0));
+        menuList.forEach(menu -> {
+            if (menu.getChildren() == null) {
+                List<SysMenuVo> children = new ArrayList<>();
+                SysMenuVo child = new SysMenuVo();
+                BeanUtils.copyProperties(menu, child);
+                child.setPath(child.getPath() + "/index");
+                children.add(child);
+                menu.setChildren(children);
+                menu.setName(null);
+            }
+        });
+        return menuList;
     }
 
 }

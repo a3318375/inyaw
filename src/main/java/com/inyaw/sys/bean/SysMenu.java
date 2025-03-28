@@ -30,10 +30,6 @@ public class SysMenu {
      */
     private String icon;
     /**
-     * 是否显示
-     */
-    private Boolean isShow;
-    /**
      * 菜单父id
      */
     private Integer parentId;

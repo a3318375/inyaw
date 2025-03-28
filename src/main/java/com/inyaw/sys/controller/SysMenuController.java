@@ -23,8 +23,8 @@ public class SysMenuController {
     }
 
     @GetMapping("/findMenuList")
-    public BaseResult findMenuList(Boolean enable) {
-        return BaseResult.success(sysMenuService.findMenuList(enable));
+    public BaseResult findMenuList() {
+        return BaseResult.success(sysMenuService.findMenuList());
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
