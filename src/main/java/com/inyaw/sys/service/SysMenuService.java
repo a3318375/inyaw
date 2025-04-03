@@ -54,6 +54,9 @@ public class SysMenuService {
             BeanUtils.copyProperties(menuInfo, vo);
             Map<String, Object> meta = new HashMap<>();
             meta.put("title", menuInfo.getTitle());
+            if (menuInfo.getParentId() != 0) {
+                meta.put("showParent", true);
+            }
             vo.setMeta(meta);
 
             List<SysMenu> chindres = findMenuList(menuInfo.getId());
