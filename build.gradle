@@ -8,7 +8,9 @@ group = 'com.inyaw'
 version = '0.0.1'
 
 java {
-    sourceCompatibility = '21'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 configurations {

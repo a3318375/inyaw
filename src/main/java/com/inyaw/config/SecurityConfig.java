@@ -43,18 +43,17 @@ public class SecurityConfig {
     @Value("${jwt.private.key}")
     RSAPrivateKey priv;
 
-    private final InyaaAccessDecisionManager inyaaAccessDecisionManager;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // @formatter:off
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().access(inyaaAccessDecisionManager)
+                        .requestMatchers("/login","/register","/blog/web/**", "/file/image").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                //.httpBasic(Customizer.withDefaults())
-                .oauth2ResourceServer(httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer.jwt(Customizer.withDefaults()))
+                .httpBasic(Customizer.withDefaults())
+                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling((exceptions) -> exceptions
                         .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
