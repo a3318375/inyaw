@@ -1,5 +1,6 @@
 package com.inyaw.sys.bean;
 
+import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
@@ -28,7 +29,20 @@ public class SysDept {
      */
     private Integer parentId;
     /**
+     * 是否启用
+     */
+    private Boolean enable;
+    /**
+     * 排序
+     */
+    private Integer sort;
+    /**
+     * 备注
+     */
+    private String remark;
+    /**
      * 创建日期
      */
+    @Column(onInsertValue = "now()")
     private LocalDateTime createTime;
 }

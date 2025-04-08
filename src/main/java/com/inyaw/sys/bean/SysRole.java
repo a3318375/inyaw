@@ -15,14 +15,17 @@ public class SysRole {
     /**
      * 角色名称
      */
-    private String roleName;
+    private String name;
     /**
-     * 角色key
+     * 角色代码
      */
-    private String roleKey;
-
+    private String code;
     /**
-     * 描述
+     * 是否启用
      */
-    private String description;
+    private Boolean enable;
+    /**
+     * 备注
+     */
+    private String remark;
 }

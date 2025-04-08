@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/dept")
+@RequestMapping("/sys/dept")
 @RequiredArgsConstructor
 public class SysDeptController {
 
@@ -16,6 +16,11 @@ public class SysDeptController {
     @GetMapping("/list")
     public BaseResult list() {
         return BaseResult.success(sysDeptService.list());
+    }
+
+    @GetMapping("/tree")
+    public BaseResult tree() {
+        return BaseResult.success(sysDeptService.tree());
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)

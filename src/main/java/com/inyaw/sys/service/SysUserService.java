@@ -45,7 +45,7 @@ public class SysUserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
-            QueryWrapper queryWrapper = QueryWrapper.create().select(SYS_ROLE.ROLE_KEY)
+            QueryWrapper queryWrapper = QueryWrapper.create().select(SYS_ROLE.CODE)
                     .from(SYS_ROLE).where(SYS_ROLE.ID.in(select(SYS_USER_ROLE.ROLE_ID)
                             .from(SYS_USER_ROLE).leftJoin(SYS_USER).on(SYS_USER_ROLE.USER_ID.eq(SYS_USER.ID))
                             .where(SYS_USER.ID.eq(user.getId()))));
