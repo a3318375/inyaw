@@ -8,10 +8,6 @@ import lombok.Setter;
 @Getter
 public class InyawBlogVo extends BlogInfo {
 
-    private String context;
-
-    private BlogInfo previousBlog;
-
-    private BlogInfo nextBlog;
+    private String typeName;
 
 }

@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class InyawBlogWebInfoVo extends InyawBlogWebVo {
-
-    private String context;
+public class InyawBlogWebInfoVo extends InyawBlogInfoVo {
 
     private InyawBlogVo previousBlog;
 

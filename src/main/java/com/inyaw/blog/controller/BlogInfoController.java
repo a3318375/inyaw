@@ -24,11 +24,11 @@ public class BlogInfoController {
 
     @GetMapping("/list")
     public BaseResult list(BlogInfo req) {
-        return BaseResult.success(blogInfoService.findAll(req));
+        return BaseResult.success(blogInfoService.findList(req));
     }
 
     @GetMapping("/page")
-    public BaseResult list(BlogInfoDto req) {
+    public BaseResult page(BlogInfo req) {
         return BaseResult.success(blogInfoService.findListPage(req));
     }
 
@@ -40,7 +40,7 @@ public class BlogInfoController {
 
     @GetMapping("/info")
     public BaseResult info(BlogInfo blog) {
-        return BaseResult.success(blogInfoService.getBlogInfo(blog, false));
+        return BaseResult.success(blogInfoService.getBlogInfo(blog));
     }
 
 }

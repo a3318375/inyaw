@@ -2,7 +2,6 @@ package com.inyaw.blog.controller;
 
 import com.inyaw.base.BaseResult;
 import com.inyaw.blog.bean.BlogInfo;
-import com.inyaw.blog.dto.BlogInfoDto;
 import com.inyaw.blog.service.BlogInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,13 +25,13 @@ public class BlogInfoWebController {
     @GetMapping("/list")
     public BaseResult findBlogList(BlogInfo req) {
         req.setStatus(true);
-        return BaseResult.success(inyawBlogService.findWebList(req));
+        return BaseResult.success(inyawBlogService.findList(req));
     }
 
     @GetMapping("/page")
-    public BaseResult findBlogPage(BlogInfoDto req) {
+    public BaseResult findBlogPage(BlogInfo req) {
         req.setStatus(true);
-        return BaseResult.success(inyawBlogService.findWebListPage(req));
+        return BaseResult.success(inyawBlogService.findListPage(req));
     }
 
     @GetMapping("/info")
