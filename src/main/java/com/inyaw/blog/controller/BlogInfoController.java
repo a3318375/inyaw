@@ -27,7 +27,7 @@ public class BlogInfoController {
         return BaseResult.success(blogInfoService.findAll(req));
     }
 
-    @GetMapping("/list/page")
+    @GetMapping("/page")
     public BaseResult list(BlogInfoDto req) {
         return BaseResult.success(blogInfoService.findListPage(req));
     }
