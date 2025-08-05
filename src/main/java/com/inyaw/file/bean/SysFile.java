@@ -1,7 +1,5 @@
 package com.inyaw.file.bean;
 
-import com.mybatisflex.annotation.Id;
-import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import lombok.Data;
 
@@ -15,26 +13,25 @@ import java.time.LocalDateTime;
 @Data
 public class SysFile {
 
-    @Id(keyType = KeyType.Auto)
-    private Integer id;
+    private Long id;
 
     /**
-     * 图片链接
+     * 文件链接
      */
     private String url;
 
     /**
-     * 0-封面
+     * 文件类型
      */
     private Integer type;
 
     /**
      * 上传方式，0-本地，1-七牛，2-又拍
      */
-    private Integer uploadType;
+    private Integer ossType;
 
     /**
-     * 上传时间
+     * 创建时间
      */
     private LocalDateTime createTime;
 }

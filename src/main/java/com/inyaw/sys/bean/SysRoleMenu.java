@@ -9,14 +9,13 @@ import lombok.Data;
 @Data
 public class SysRoleMenu {
 
-    @Id(keyType = KeyType.Auto)
-    private Integer id;
+    private Long id;
     /**
      * 角色id
      */
-    private Integer roleId;
+    private Long roleId;
     /**
      * 菜单id
      */
-    private Integer menuId;
+    private Long menuId;
 }

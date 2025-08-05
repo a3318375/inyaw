@@ -36,12 +36,12 @@ public class SysMenuService {
 
     public void save(SysMenu permission) {
         if (permission.getParentId() == null) {
-            permission.setParentId(0);
+            permission.setParentId(0L);
         }
         sysMenuMapper.insert(permission);
     }
 
-    private List<SysMenu> findMenuList(Integer pid) {
+    private List<SysMenu> findMenuList(Long pid) {
         SysMenu params = new SysMenu();
         params.setParentId(pid);
         return findMenuList(params);
@@ -69,7 +69,7 @@ public class SysMenuService {
     }
 
     public List<SysMenuVo> findMenuList() {
-        List<SysMenuVo> menuList = findMenuList(findMenuList(0));
+        List<SysMenuVo> menuList = findMenuList(findMenuList(0L));
         menuList.forEach(menu -> {
             if (menu.getChildren() == null) {
                 List<SysMenuVo> children = new ArrayList<>();

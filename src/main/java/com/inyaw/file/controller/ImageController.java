@@ -46,7 +46,7 @@ public class ImageController {
     public BaseResult delete(@RequestBody SysFile InyawSysFile) {
         SysFile bean = sysFileService.getOne(InyawSysFile.getId());
         if (bean != null) {
-            Map<String, Object> configMap = cacheService.getConfig(1);
+            Map<String, Object> configMap = cacheService.getConfig("UPLOAD_CONFIG");
             int uploadType = Integer.parseInt(String.valueOf(configMap.get("UPLOAD_TYPE")));
             switch (uploadType) {
                 case 1:
@@ -62,7 +62,7 @@ public class ImageController {
 
     @PostMapping("/upload")
     public BaseResult upload(@RequestParam("file") MultipartFile file, @RequestParam("type") Integer type) throws IOException {
-        Map<String, Object> configMap = cacheService.getConfig(1);
+        Map<String, Object> configMap = cacheService.getConfig("UPLOAD_CONFIG");
         int uploadType = Integer.parseInt(String.valueOf(configMap.get("UPLOAD_TYPE")));
         String url = null;
         switch (uploadType) {
@@ -81,7 +81,7 @@ public class ImageController {
 
     @GetMapping("/fileList")
     public String upload() {
-        Map<String, Object> configMap = cacheService.getConfig(1);
+        Map<String, Object> configMap = cacheService.getConfig("UPLOAD_CONFIG");
         String username = String.valueOf(configMap.get("UPLOAD_UPAI_USERNAME"));
         String password = String.valueOf(configMap.get("UPLOAD_UPAI_PASSWORD"));
         String bucket = String.valueOf(configMap.get("UPLOAD_UPAI_BUCKET"));

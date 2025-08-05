@@ -19,11 +19,11 @@ public class SysFileService {
 
     private final SysFileMapper sysFileMapper;
 
-    public void save(String url, int uploadType, Integer type) {
+    public void save(String url, int ossType, Integer type) {
         SysFile sysFile = new SysFile();
         sysFile.setUrl(url);
         sysFile.setType(type == null ? 0 : type);
-        sysFile.setUploadType(uploadType);
+        sysFile.setOssType(ossType);
         sysFile.setCreateTime(LocalDateTime.now());
         sysFileMapper.insert(sysFile);
     }
@@ -35,12 +35,12 @@ public class SysFileService {
     public SysFile getRandImg(int type) {
         QueryWrapper queryWrapper = QueryWrapper.create();
         queryWrapper.eq("type", type);
-        queryWrapper.orderByUnSafely("rand()").limit(1);
+        queryWrapper.orderByUnSafely("random()").limit(1);
         // @Query(value = "select * FROM inyaw_sys_file where type = ?1 ORDER BY RAND() LIMIT 1", nativeQuery = true)
         return sysFileMapper.selectOneByQuery(queryWrapper);
     }
 
-    public SysFile getOne(Integer id) {
+    public SysFile getOne(Long id) {
         return sysFileMapper.selectOneById(id);
     }
 }

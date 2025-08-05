@@ -1,16 +1,13 @@
 package com.inyaw.blog.service;
 
 import com.inyaw.base.BaseResult;
-import com.inyaw.blog.bean.BlogArticle;
 import com.inyaw.blog.bean.BlogInfo;
 import com.inyaw.blog.bean.BlogTag;
 import com.inyaw.blog.bean.TypeInfo;
-import com.inyaw.blog.dao.BlogArticleMapper;
 import com.inyaw.blog.dao.BlogInfoMapper;
 import com.inyaw.blog.dao.BlogTagMapper;
 import com.inyaw.blog.dao.TypeInfoMapper;
 import com.inyaw.blog.dto.BlogInfoDto;
-import com.inyaw.blog.vo.InyawBlogInfoVo;
 import com.inyaw.blog.vo.InyawBlogVo;
 import com.inyaw.blog.vo.InyawBlogWebInfoVo;
 import com.mybatisflex.core.paginate.Page;
@@ -33,18 +30,17 @@ import static com.inyaw.blog.bean.table.TypeInfoTableDef.TYPE_INFO;
 public class BlogInfoService {
 
     private final BlogInfoMapper blogInfoMapper;
-    private final BlogArticleMapper blogArticleMapper;
     private final BlogTagMapper blogTagMapper;
     private final TypeInfoMapper typeInfoMapper;
 
     public List<BlogInfo> findAll(BlogInfo req) {
-        QueryWrapper queryWrapper = QueryWrapper.create().orderBy(BLOG_INFO.CREATE_TIME.desc()).where(BLOG_INFO.TITLE.eq(req.getTitle()));
+        QueryWrapper queryWrapper = QueryWrapper.create().select(BLOG_INFO.DEFAULT_COLUMNS).orderBy(BLOG_INFO.CREATE_TIME.desc()).where(BLOG_INFO.TITLE.eq(req.getTitle()));
         return blogInfoMapper.selectListByQuery(queryWrapper);
     }
 
     public List<InyawBlogVo> findList(BlogInfo req) {
         QueryWrapper queryWrapper = QueryWrapper.create(req)
-                .select(BLOG_INFO.ALL_COLUMNS, TYPE_INFO.NAME.as("typeName"))
+                .select(TYPE_INFO.NAME.as("typeName"))
                 .from(BLOG_INFO)
                 .leftJoin(TYPE_INFO).on(BLOG_INFO.TYPE_ID.eq(TYPE_INFO.ID))
                 .orderBy(BLOG_INFO.CREATE_TIME.desc());
@@ -53,7 +49,7 @@ public class BlogInfoService {
 
     public Page<InyawBlogVo> findListPage(BlogInfo req) {
         QueryWrapper queryWrapper = QueryWrapper.create(req)
-                .select(BLOG_INFO.ALL_COLUMNS, TYPE_INFO.NAME.as("typeName"))
+                .select(BLOG_INFO.DEFAULT_COLUMNS, TYPE_INFO.NAME.as("typeName"))
                 .from(BLOG_INFO)
                 .leftJoin(TYPE_INFO).on(BLOG_INFO.TYPE_ID.eq(TYPE_INFO.ID))
                 .orderBy(BLOG_INFO.CREATE_TIME.desc());
@@ -96,14 +92,10 @@ public class BlogInfoService {
         return blog;
     }
 
-    public InyawBlogInfoVo getBlogInfo(BlogInfo req) {
-        InyawBlogInfoVo vo = new InyawBlogInfoVo();
+    public InyawBlogVo getBlogInfo(BlogInfo req) {
+        InyawBlogVo vo = new InyawBlogVo();
         BlogInfo bean = getBlogInfo(req, false);
         BeanUtils.copyProperties(bean, vo);
-        BlogArticle blogArticle = blogArticleMapper.selectOneById(bean.getId());
-        if (blogArticle != null) {
-            vo.setContext(blogArticle.getContext());
-        }
         return vo;
     }
 
@@ -111,10 +103,6 @@ public class BlogInfoService {
         InyawBlogWebInfoVo vo = new InyawBlogWebInfoVo();
         BlogInfo bean = getBlogInfo(req, true);
         BeanUtils.copyProperties(bean, vo);
-        BlogArticle blogArticle = blogArticleMapper.selectOneById(bean.getId());
-        if (blogArticle != null) {
-            vo.setContext(blogArticle.getContext());
-        }
         if (bean.getTypeId() != null) {
             TypeInfo type = typeInfoMapper.selectOneById(bean.getTypeId());
             if (type != null) {

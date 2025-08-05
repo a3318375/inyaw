@@ -6,10 +6,10 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://1.117.59.182:3306/inyaw_new?useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
-    username: root
-    password: Yuxh3318375!
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://1.117.59.182:5432/inyaw?currentSchema=public&sslmode=disable
+    username: postgres
+    password: inyaw2025
+    driver-class-name: org.postgresql.Driver
 
 jwt:
   private.key: classpath:app.key

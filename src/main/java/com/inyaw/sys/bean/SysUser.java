@@ -1,5 +1,8 @@
 package com.inyaw.sys.bean;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
@@ -12,8 +15,7 @@ import java.time.LocalDateTime;
 public class SysUser {
 
     @Id(keyType = KeyType.Auto)
-    private Integer id;
-
+    private Long id;
     /**
      * 用户名
      */
@@ -21,6 +23,7 @@ public class SysUser {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
     /**
      * 昵称
@@ -35,28 +38,33 @@ public class SysUser {
      */
     private String email;
     /**
-     * 最后登录IP
-     */
-    private String loginIp;
-    /**
-     * 最后登录日期
-     */
-    private LocalDateTime loginDate;
-    /**
      * 账号是否可用
      */
     private Boolean enabled;
-    /**
-     * 账号是否未过期
-     */
-    private Boolean accountNonExpired;
-    /**
-     * 账号是否未锁定
-     */
-    private Boolean accountNonLocked;
 
     /**
-     * 账号凭证是否未过期
+     * 创建时间
      */
-    private Boolean credentialsNonExpired;
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+
+    @JsonCreator
+    public SysUser(@JsonProperty("id") Long id, @JsonProperty("id") String username, @JsonProperty("id") String password,
+                   @JsonProperty("id") String nickname, @JsonProperty("id") String avatar,
+                   @JsonProperty("id") String email, @JsonProperty("id") Boolean enabled,
+                   @JsonProperty("id") LocalDateTime createTime, @JsonProperty("id") LocalDateTime updateTime) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.avatar = avatar;
+        this.email = email;
+        this.enabled = enabled;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
 }

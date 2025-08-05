@@ -1,13 +1,12 @@
 package com.inyaw.sys.controller;
 
 import com.inyaw.base.BaseResult;
+import com.inyaw.base.CurrentUser;
 import com.inyaw.sys.bean.SysUser;
 import com.inyaw.sys.dto.SysUserDto;
 import com.inyaw.sys.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/sys/user")
@@ -17,8 +16,7 @@ public class SysUserController {
     private final SysUserService sysUserService;
 
     @GetMapping("/info")
-    public BaseResult info(Principal principal) {
-        SysUser user = sysUserService.getByUsername(principal.getName());
+    public BaseResult info(@CurrentUser SysUser user) {
         return BaseResult.success(user);
     }
 

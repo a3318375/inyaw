@@ -1,7 +1,7 @@
 package com.inyaw.config;
 
-import com.inyaw.sys.bean.SysConfig;
-import com.inyaw.sys.service.SysConfigService;
+import com.inyaw.sys.bean.SysEnmu;
+import com.inyaw.sys.service.SysEnmuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +19,19 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CacheService {
 
-    private final Map<Integer, Map<String, Object>> configCache = new HashMap<>();
+    private final Map<String, Map<String, Object>> configCache = new HashMap<>();
 
-    private final SysConfigService sysConfigService;
+    private final SysEnmuService sysEnmuService;
 
-    public Map<String, Object> getConfig(Integer type) {
-        Map<String, Object> configMap = configCache.get(type);
+    public Map<String, Object> getConfig(String module) {
+        Map<String, Object> configMap = configCache.get(module);
         if (configMap == null || configMap.isEmpty()) {
             configMap = new HashMap<>();
-            List<SysConfig> configList = sysConfigService.findAll(type);
-            for (SysConfig bean : configList) {
-                configMap.put(bean.getConfigKey(), bean.getConfigValue());
+            List<SysEnmu> configList = sysEnmuService.findAll(module);
+            for (SysEnmu bean : configList) {
+                configMap.put(bean.getCode(), bean.getValue());
             }
-            configCache.put(type, configMap);
+            configCache.put(module, configMap);
         }
         return configMap;
     }

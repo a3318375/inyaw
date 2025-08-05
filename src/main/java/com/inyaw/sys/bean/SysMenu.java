@@ -1,7 +1,5 @@
 package com.inyaw.sys.bean;
 
-import com.mybatisflex.annotation.Id;
-import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import lombok.Data;
 
@@ -11,8 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class SysMenu {
 
-    @Id(keyType = KeyType.Auto)
-    private Integer id;
+    private Long id;
     /**
      * 页面名称(code)
      */
@@ -32,7 +29,7 @@ public class SysMenu {
     /**
      * 菜单父id
      */
-    private Integer parentId;
+    private Long parentId;
     /**
      * 菜单排序
      */

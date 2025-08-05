@@ -8,18 +8,15 @@ import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.inyaw.sys.bean.table.SysRoleTableDef.SYS_ROLE;
 import static com.inyaw.sys.bean.table.SysUserRoleTableDef.SYS_USER_ROLE;
@@ -38,26 +35,42 @@ public class SysUserService implements UserDetailsService {
         this.sysRoleMapper = sysRoleMapper;
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser user = getByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
-        } else {
-            QueryWrapper queryWrapper = QueryWrapper.create().select(SYS_ROLE.CODE)
-                    .from(SYS_ROLE).where(SYS_ROLE.ID.in(select(SYS_USER_ROLE.ROLE_ID)
-                            .from(SYS_USER_ROLE).leftJoin(SYS_USER).on(SYS_USER_ROLE.USER_ID.eq(SYS_USER.ID))
-                            .where(SYS_USER.ID.eq(user.getId()))));
-            List<String> roles = sysRoleMapper.selectObjectListByQueryAs(queryWrapper, String.class);
-            return buildUserForAuthentication(user, buildUserAuthority(roles));
+            throw new UsernameNotFoundException("username " + username + " is not found");
         }
+
+        QueryWrapper queryWrapper = QueryWrapper.create().select(SYS_ROLE.CODE)
+                .from(SYS_ROLE).where(SYS_ROLE.ID.in(select(SYS_USER_ROLE.ROLE_ID)
+                        .from(SYS_USER_ROLE).leftJoin(SYS_USER).on(SYS_USER_ROLE.USER_ID.eq(SYS_USER.ID))
+                        .where(SYS_USER.ID.eq(user.getId()))));
+        List<String> roles = sysRoleMapper.selectObjectListByQueryAs(queryWrapper, String.class);
+        return new SysUserDetails(user, buildUserAuthority(roles));
     }
 
+    static final class SysUserDetails extends SysUser implements UserDetails {
 
-    private User buildUserForAuthentication(SysUser user, List<GrantedAuthority> authorities) {
-        return new User(user.getUsername(), user.getPassword(), user.getEnabled(), user.getAccountNonExpired(),
-                user.getCredentialsNonExpired(), user.getAccountNonLocked(), authorities);
+        private static List<GrantedAuthority> ROLE_USER = Collections
+                .unmodifiableList(AuthorityUtils.createAuthorityList("ROLE_USER"));
+
+        SysUserDetails(SysUser sysUser, List<GrantedAuthority> authorities) {
+            super(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(),
+                    sysUser.getAvatar(), sysUser.getEmail(), sysUser.getEnabled(), sysUser.getCreateTime(), sysUser.getUpdateTime());
+            ROLE_USER = authorities;
+        }
+
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            return ROLE_USER;
+        }
+
+        @Override
+        public String getUsername() {
+            return getEmail();
+        }
+
     }
 
     private List<GrantedAuthority> buildUserAuthority(List<String> userRoles) {
@@ -86,15 +99,6 @@ public class SysUserService implements UserDetailsService {
         if (StringUtils.isNotBlank(userDto.getPassword()) && updatePassword) {
             BCryptPasswordEncoder bcry = new BCryptPasswordEncoder();
             userDto.setPassword(bcry.encode(userDto.getPassword()));
-        }
-        if (userDto.getAccountNonLocked() == null) {
-            userDto.setAccountNonLocked(true);
-        }
-        if (userDto.getAccountNonExpired() == null) {
-            userDto.setAccountNonExpired(true);
-        }
-        if (userDto.getCredentialsNonExpired() == null) {
-            userDto.setCredentialsNonExpired(true);
         }
         if (userDto.getRoleList() != null && !userDto.getRoleList().isEmpty()) {
             sysRoleMapper.insertBatch(userDto.getRoleList());

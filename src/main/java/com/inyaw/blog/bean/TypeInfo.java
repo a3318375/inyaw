@@ -1,7 +1,5 @@
 package com.inyaw.blog.bean;
 
-import com.mybatisflex.annotation.Id;
-import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import lombok.Data;
 
@@ -11,8 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class TypeInfo {
 
-    @Id(keyType = KeyType.Auto)
-    private Integer id;
+    private Long id;
 
     /**
      * 分类名称
