@@ -1,5 +1,6 @@
 package com.inyaw.sys.service;
 
+import com.inyaw.config.SysUserDetails;
 import com.inyaw.sys.bean.SysUser;
 import com.inyaw.sys.dao.SysRoleMapper;
 import com.inyaw.sys.dao.SysUserMapper;
@@ -8,7 +9,6 @@ import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +16,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static com.inyaw.sys.bean.table.SysRoleTableDef.SYS_ROLE;
 import static com.inyaw.sys.bean.table.SysUserRoleTableDef.SYS_USER_ROLE;
@@ -48,29 +51,6 @@ public class SysUserService implements UserDetailsService {
                         .where(SYS_USER.ID.eq(user.getId()))));
         List<String> roles = sysRoleMapper.selectObjectListByQueryAs(queryWrapper, String.class);
         return new SysUserDetails(user, buildUserAuthority(roles));
-    }
-
-    static final class SysUserDetails extends SysUser implements UserDetails {
-
-        private static List<GrantedAuthority> ROLE_USER = Collections
-                .unmodifiableList(AuthorityUtils.createAuthorityList("ROLE_USER"));
-
-        SysUserDetails(SysUser sysUser, List<GrantedAuthority> authorities) {
-            super(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(),
-                    sysUser.getAvatar(), sysUser.getEmail(), sysUser.getEnabled(), sysUser.getCreateTime(), sysUser.getUpdateTime());
-            ROLE_USER = authorities;
-        }
-
-        @Override
-        public Collection<? extends GrantedAuthority> getAuthorities() {
-            return ROLE_USER;
-        }
-
-        @Override
-        public String getUsername() {
-            return getEmail();
-        }
-
     }
 
     private List<GrantedAuthority> buildUserAuthority(List<String> userRoles) {

@@ -17,7 +17,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,13 +59,7 @@ public class BlogInfoService {
     public void save(BlogInfoDto req) {
         BlogInfo blog = new BlogInfo();
         BeanUtils.copyProperties(req, blog);
-        if (req.getId() != null) {
-            blog.setUpdateTime(LocalDateTime.now());
-        } else {
-            blog.setCreateTime(LocalDateTime.now());
-            blog.setViews(0);
-        }
-        blogInfoMapper.insert(blog);
+        blogInfoMapper.insert(req);
         if (req.getTagList() != null && !req.getTagList().isEmpty()) {
             List<BlogTag> blogTagList = new ArrayList<>();
             req.getTagList().forEach(tagInfo -> {

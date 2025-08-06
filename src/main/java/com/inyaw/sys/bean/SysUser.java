@@ -1,20 +1,18 @@
 package com.inyaw.sys.bean;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mybatisflex.annotation.Id;
-import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Table("sys_user")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SysUser {
 
-    @Id(keyType = KeyType.Auto)
     private Long id;
     /**
      * 用户名
@@ -23,7 +21,6 @@ public class SysUser {
     /**
      * 密码
      */
-    @JsonIgnore
     private String password;
     /**
      * 昵称
@@ -51,20 +48,4 @@ public class SysUser {
      * 更新时间
      */
     private LocalDateTime updateTime;
-
-    @JsonCreator
-    public SysUser(@JsonProperty("id") Long id, @JsonProperty("id") String username, @JsonProperty("id") String password,
-                   @JsonProperty("id") String nickname, @JsonProperty("id") String avatar,
-                   @JsonProperty("id") String email, @JsonProperty("id") Boolean enabled,
-                   @JsonProperty("id") LocalDateTime createTime, @JsonProperty("id") LocalDateTime updateTime) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.avatar = avatar;
-        this.email = email;
-        this.enabled = enabled;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-    }
 }

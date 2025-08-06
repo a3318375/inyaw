@@ -1,7 +1,7 @@
 package com.inyaw.sys.controller;
 
 import com.inyaw.base.BaseResult;
-import com.inyaw.base.CurrentUser;
+import com.inyaw.config.CurrentUser;
 import com.inyaw.sys.bean.SysUser;
 import com.inyaw.sys.dto.SysUserDto;
 import com.inyaw.sys.service.SysUserService;
@@ -16,7 +16,9 @@ public class SysUserController {
     private final SysUserService sysUserService;
 
     @GetMapping("/info")
-    public BaseResult info(@CurrentUser SysUser user) {
+    public BaseResult info(@CurrentUser String username) {
+        SysUser user = sysUserService.getByUsername(username);
+        user.setPassword(null);
         return BaseResult.success(user);
     }
 
