@@ -53,7 +53,7 @@ public class BlogInfoService {
                 .from(BLOG_INFO)
                 .leftJoin(TYPE_INFO).on(BLOG_INFO.TYPE_ID.eq(TYPE_INFO.ID))
                 .orderBy(BLOG_INFO.CREATE_TIME.desc());
-        return blogInfoMapper.paginateAs(req.getPageNum(), req.getPageSize(), queryWrapper, InyawBlogVo.class);
+        return blogInfoMapper.paginateAs(req.getPageNumber(), req.getPageSize(), queryWrapper, InyawBlogVo.class);
     }
 
     @Transactional
