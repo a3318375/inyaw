@@ -47,8 +47,9 @@ public class BlogInfoService {
     }
 
     public Page<InyawBlogVo> findListPage(BlogInfo req) {
-        QueryWrapper queryWrapper = QueryWrapper.create(req)
-                .select(BLOG_INFO.DEFAULT_COLUMNS, TYPE_INFO.NAME.as("typeName"))
+        QueryWrapper queryWrapper = QueryWrapper.create()
+                .select(BLOG_INFO.DEFAULT_COLUMNS)
+                .select(TYPE_INFO.NAME.as("typeName"))
                 .from(BLOG_INFO)
                 .leftJoin(TYPE_INFO).on(BLOG_INFO.TYPE_ID.eq(TYPE_INFO.ID))
                 .orderBy(BLOG_INFO.CREATE_TIME.desc());
