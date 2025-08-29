@@ -19,7 +19,7 @@ public class MyBatisFlexConfiguration {
 
         //设置 SQL 审计收集器
         AuditManager.setMessageCollector(auditMessage -> {
-                    if (auditMessage.getElapsedTime() > 1000) {
+                    if (auditMessage.getElapsedTime() > 0) {
                         log.info("{},{}ms", auditMessage.getFullSql()
                                 , auditMessage.getElapsedTime());
                     }

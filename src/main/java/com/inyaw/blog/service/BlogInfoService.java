@@ -77,25 +77,13 @@ public class BlogInfoService {
         blogInfoMapper.deleteById(req.getId());
     }
 
-    public BlogInfo getBlogInfo(BlogInfo req, boolean isUpdate) {
-        BlogInfo blog = blogInfoMapper.selectOneById(req.getId());
-        if (isUpdate) {
-            blog.setViews(blog.getViews() + 1);
-            blogInfoMapper.update(blog);
-        }
-        return blog;
-    }
-
-    public InyawBlogVo getBlogInfo(BlogInfo req) {
-        InyawBlogVo vo = new InyawBlogVo();
-        BlogInfo bean = getBlogInfo(req, false);
-        BeanUtils.copyProperties(bean, vo);
-        return vo;
+    public BlogInfo getBlogInfo(BlogInfo req) {
+        return blogInfoMapper.selectOneById(req.getId());
     }
 
     public InyawBlogWebInfoVo getWebBlogInfo(BlogInfo req) {
         InyawBlogWebInfoVo vo = new InyawBlogWebInfoVo();
-        BlogInfo bean = getBlogInfo(req, true);
+        BlogInfo bean = blogInfoMapper.selectOneById(req.getId());
         BeanUtils.copyProperties(bean, vo);
         if (bean.getTypeId() != null) {
             TypeInfo type = typeInfoMapper.selectOneById(bean.getTypeId());

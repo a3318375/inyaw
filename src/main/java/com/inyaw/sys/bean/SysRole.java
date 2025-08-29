@@ -1,5 +1,6 @@
 package com.inyaw.sys.bean;
 
+import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.Table;
 import lombok.Data;
 
@@ -7,8 +8,8 @@ import lombok.Data;
 @Data
 public class SysRole {
 
+    @Id
     private Long id;
-
     /**
      * 角色名称
      */

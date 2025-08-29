@@ -1,5 +1,6 @@
 package com.inyaw.sys.bean;
 
+import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.Table;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 public class SysMenu {
 
+    @Id
     private Long id;
     /**
      * 页面名称(code)

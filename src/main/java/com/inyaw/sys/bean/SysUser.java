@@ -1,5 +1,6 @@
 package com.inyaw.sys.bean;
 
+import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SysUser {
 
+    @Id
     private Long id;
     /**
      * 用户名
