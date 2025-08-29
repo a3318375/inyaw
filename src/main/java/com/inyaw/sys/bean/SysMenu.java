@@ -31,6 +31,10 @@ public class SysMenu {
      */
     private Long parentId;
     /**
+     * 是否隐藏
+     */
+    private Boolean isHide;
+    /**
      * 菜单排序
      */
     private Integer sort;
