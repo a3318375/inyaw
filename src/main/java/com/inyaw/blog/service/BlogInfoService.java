@@ -38,7 +38,8 @@ public class BlogInfoService {
     }
 
     public List<InyawBlogVo> findList(BlogInfo req) {
-        QueryWrapper queryWrapper = QueryWrapper.create(req)
+        QueryWrapper queryWrapper = QueryWrapper.create()
+                .select(BLOG_INFO.DEFAULT_COLUMNS)
                 .select(TYPE_INFO.NAME.as("typeName"))
                 .from(BLOG_INFO)
                 .leftJoin(TYPE_INFO).on(BLOG_INFO.TYPE_ID.eq(TYPE_INFO.ID))
@@ -60,7 +61,7 @@ public class BlogInfoService {
     public void save(BlogInfoDto req) {
         BlogInfo blog = new BlogInfo();
         BeanUtils.copyProperties(req, blog);
-        blogInfoMapper.insert(req);
+        blogInfoMapper.insertOrUpdateSelective(req);
         if (req.getTagList() != null && !req.getTagList().isEmpty()) {
             List<BlogTag> blogTagList = new ArrayList<>();
             req.getTagList().forEach(tagInfo -> {
